@@ -27,3 +27,5 @@ require("./app/routes/customer.routes.js")(app);
 server.listen(port, () => {
     console.log("server is running");
 });
+
+module.exports = app;
