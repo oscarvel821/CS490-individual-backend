@@ -48,4 +48,77 @@ Customer.findById = async (customerId) => {
     }
 };
 
+Customer.updateById = async (id, customer) => {
+    try{
+        const sql = `update customer 
+        set first_name = ?, last_name = ?, email = ?, active = ?
+        where customer_id = ?;`
+
+        const [rows] = await pool.query(sql, [customer.first_name, customer.last_name, customer.email, customer.active, id])
+        if(rows){
+            console.log("Updated Customer with id : ", id)
+        }
+        else{
+            throw {kind  : "not found"}
+        }
+    }
+    catch(error){
+        console.error("error updating Customer by ID: ", error);
+        throw error;
+    }
+}
+
+Customer.remove = async (customerId) => {
+    try{
+        const sql = `DELETE FROM customer
+        WHERE customer_id = ?`
+        const [rows] = await pool.query(sql, [customerId]);
+        if (rows) {
+            console.log("deleted Customer with id : ", customerId);
+        }
+        else {
+            throw {kind : "not found"}
+        }
+    }
+    catch(error){
+            console.error("error deleting Customer by ID: ", error);
+            throw error;
+    }
+}
+
+Customer.getAllRentals = async (customerId) => {
+    try {
+        const sql = `SELECT distinct
+            customer.customer_id,
+            customer.first_name,
+            customer.last_name,
+            film.title AS rented_movie,
+            rental.return_date as return_status
+            FROM
+                customer
+            JOIN
+                rental ON customer.customer_id = rental.customer_id
+            JOIN
+                inventory ON rental.inventory_id = inventory.inventory_id
+            JOIN
+                film ON inventory.film_id = film.film_id
+            where
+                customer.customer_id = ?
+            order by
+                return_status
+            limit 25;`
+        const [rows] = await pool.query(sql, [customerId]);
+        if(rows){
+            console.log("Customer found: ", rows);
+            return rows;
+        }
+        else {
+            throw { kind: "not found" };
+        }
+    } catch (error) {
+        console.error("Error retrieving customer : ", error);
+        throw error;
+    }
+}
+
 module.exports = Customer

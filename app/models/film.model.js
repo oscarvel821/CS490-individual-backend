@@ -17,7 +17,7 @@ const Film = function (film) {
 
 Film.create = async (newFilm) => {
   try {
-    const [result] = await pool.query("INSERT INTO film SET ?", newFilm);
+    const [result] = await pool.query("INSERT INTO film SET ?", [newFilm]);
     console.log("Created film : ", { id: result.insertId, ...newFilm });
     return { id: result.insertId, ...newFilm };
   } catch (error) {

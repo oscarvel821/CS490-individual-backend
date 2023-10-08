@@ -23,6 +23,7 @@ app.get("/api", (req, res) => {
 require("./app/routes/film.routes.js")(app);
 require("./app/routes/actor.routes.js")(app);
 require("./app/routes/customer.routes.js")(app);
+require("./app/routes/rental.routes.js")(app);
 
 server.listen(port, () => {
     console.log("server is running");

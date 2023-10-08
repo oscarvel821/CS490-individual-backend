@@ -6,6 +6,13 @@ module.exports = app => {
     // Route for finding a customer by ID
     router.get("/:id", Customer.findOne);
 
+    router.get("/:id/rentals", Customer.findAllRentals);
+
+    router.put("/:id", Customer.update);
+
+    //Route for deleting a customer
+    router.delete("/:id", Customer.delete);
+
     // Route for creating a new customer
     router.post("/", Customer.create);
 

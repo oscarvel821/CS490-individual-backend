@@ -4,6 +4,41 @@ const app = require('../../server.js')
 describe("film", () => {
     describe("get film route", () => {
 
+        describe("Retrieving all films", () => {
+            it("should return a 200", async () => {
+                await supertest(app).get('/api/film').expect(200);
+            });
+
+            it("should return films", async () => {
+                const response = await supertest(app).get('/api/film');
+                expect(response.body.length >= 1);
+            });
+
+            describe("given the title does not exist", () => {
+                const title = "big mommas house 9";
+                it("should return no film", async () => {
+                    const response = await supertest(app).get(`/api/film?${title}`);
+                    expect(response.body.length === 0);
+                });
+
+                it("it should return a 200", async () => {
+                    await supertest(app).get(`/api/film?${title}`).expect(200);
+                });
+            });
+
+            describe("given the actor does not exist", () => {
+                const actor_name = "Schneider";
+                it("should return no film,", async () => {
+                    const response = await supertest(app).get(`/api/film?${actor_name}`);
+                    expect(response.body.length === 0)
+                });
+
+                it("should return a 200", async () => {
+                    await supertest(app).get(`/api/film?${actor_name}`).expect(200);
+                })
+            })
+        });
+
         describe("given the film does not exist", () => {
             it("should return a 404", async () => {
                 const filmId = "3984798";
@@ -12,9 +47,14 @@ describe("film", () => {
         });
 
         describe("given the film does exist", () => {
+            const filmId = "100";
             it("should return a 200", async () => {
-                const filmId = "340";
                 await supertest(app).get(`/api/film/${filmId}`).expect(200);
+            })
+
+            it("should return film", async () => {
+                const response = await supertest(app).get(`/api/film/${filmId}`);
+                expect(response.body !== null);
             })
         });
 
