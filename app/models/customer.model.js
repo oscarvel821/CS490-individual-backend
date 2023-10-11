@@ -22,9 +22,20 @@ Customer.create = async (newCustomer) => {
     }
 };
 
-Customer.getAll = async () => {
+Customer.getAll = async (store_id) => {
     try {
-        const [rows] = await pool.query("SELECT * from customer");
+
+        let sql = "SELECT * FROM customer";
+
+        if(store_id){
+            sql += ` inner join
+                store 
+            on 
+                customer.store_id = store.store_id
+            where 
+                store.store_id = ${store_id};`
+        }
+        const [rows] = await pool.query(sql);
         // console.log("customer : ", rows);
         return rows;
     } catch (error) {

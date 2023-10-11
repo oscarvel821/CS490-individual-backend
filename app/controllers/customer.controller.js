@@ -30,7 +30,9 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
     try {
-        const customer = await Customer.getAll();
+        const store_id = req.query.store_id;
+
+        const customer = await Customer.getAll(store_id);
         res.send(customer);
     } catch (error) {
         res.status(500).send({
