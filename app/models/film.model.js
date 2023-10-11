@@ -21,7 +21,7 @@ Film.create = async (newFilm) => {
     console.log("Created film : ", { id: result.insertId, ...newFilm });
     return { id: result.insertId, ...newFilm };
   } catch (error) {
-    console.error("Error creating Film : ", error);
+    // console.error("Error creating Film : ", error);
     throw error;
   }
 };
@@ -46,10 +46,10 @@ Film.getAll = async (title, actor, genre) => {
 
     sql += " LIMIT 50";
     const [rows] = await pool.query(sql, [100]);
-    console.log("films : ", rows);
+    // console.log("films : ", rows);
     return rows;
   } catch (error) {
-    console.error("Error retrieving films : ", error);
+    // console.error("Error retrieving films : ", error);
     throw error;
   }
 };
@@ -58,13 +58,13 @@ Film.findById = async (filmId) => {
   try {
     const [rows] = await pool.query("SELECT * from film WHERE film_id = ?", filmId);
     if (rows.length) {
-      console.log("Film found: ", rows[0]);
+      // console.log("Film found: ", rows[0]);
       return rows;
     } else {
       throw { kind: "not found" };
     }
   } catch (error) {
-    console.error("Error retrieving film by ID : ", error);
+    // console.error("Error retrieving film by ID : ", error);
     throw error;
   }
 };
@@ -81,10 +81,10 @@ Film.getTop5 = async () => {
         ORDER BY descript DESC
         LIMIT 5;`
         const [rows] = await pool.query(sql);
-        console.log(rows);
+        // console.log(rows);
         return rows;
     } catch(error){
-        console.log("Error retrieving top 5 films : ", error);
+        // console.log("Error retrieving top 5 films : ", error);
         throw error;
     }
 };

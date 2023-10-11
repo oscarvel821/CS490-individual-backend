@@ -9,7 +9,7 @@ const Actor = function (film) {
 Actor.create = async (newActor) => {
     try {
         const [result] = await pool.query("INSERT INTO actor SET ?", newActor);
-        console.log("Created actor : ", { id: result.insertId, ...newActor });
+        // console.log("Created actor : ", { id: result.insertId, ...newActor });
         return { id: result.insertId, ...newActor };
     } catch (error) {
         console.error("Error creating Actor : ", error);
@@ -20,7 +20,7 @@ Actor.create = async (newActor) => {
 Actor.getAll = async () => {
     try {
         const [rows] = await pool.query("SELECT * from actor LIMIT ?", [100]);
-        console.log("actor : ", rows);
+        // console.log("actor : ", rows);
         return rows;
     } catch (error) {
         console.error("Error retrieving actors : ", error);
@@ -32,7 +32,7 @@ Actor.findById = async (actorId) => {
     try {
         const [rows] = await pool.query("SELECT * from actor WHERE actor_id = ?", actorId);
         if (rows.length) {
-        console.log("Actor found: ", rows[0]);
+        // console.log("Actor found: ", rows[0]);
         return rows;
         } else {
         throw { kind: "not found" };
@@ -54,7 +54,7 @@ Actor.getTop5 = async () => {
         order by descript desc
         limit 5;`
         const [rows] = await pool.query(sql);
-        console.log(rows);
+        // console.log(rows);
         return rows;
     } catch (error){
         console.log("Error retrieving top 5 actors : ", error);
@@ -75,7 +75,7 @@ Actor.getTopFilmById = async (id) => {
         order by rental_count desc 
         limit 5;`
         const [rows] = await pool.query(sql, [id]);
-        console.log(rows);
+        // console.log(rows);
         return rows;
     } catch (error) {
         console.log("Error retrieving actor's details : ", error);

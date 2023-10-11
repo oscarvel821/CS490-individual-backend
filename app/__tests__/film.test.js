@@ -1,7 +1,16 @@
 const supertest = require('supertest')
-const app = require('../../server.js')
+const createServer = require('../../app')
+const http = require('http');
+const {closeDatabase} = require('../models/closedb')
+
+
+const app = createServer();
 
 describe("film", () => {
+
+    afterAll(async () => {
+        closeDatabase();
+    })
     describe("get film route", () => {
 
         describe("Retrieving all films", () => {

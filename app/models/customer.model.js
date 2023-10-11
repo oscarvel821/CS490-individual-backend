@@ -25,7 +25,7 @@ Customer.create = async (newCustomer) => {
 Customer.getAll = async () => {
     try {
         const [rows] = await pool.query("SELECT * from customer");
-        console.log("customer : ", rows);
+        // console.log("customer : ", rows);
         return rows;
     } catch (error) {
         console.error("Error retrieving customer : ", error);
@@ -73,12 +73,11 @@ Customer.remove = async (customerId) => {
         const sql = `DELETE FROM customer
         WHERE customer_id = ?`
         const [rows] = await pool.query(sql, [customerId]);
-        if (rows) {
-            console.log("deleted Customer with id : ", customerId);
+        if (!rows.affectedRows) {
+            throw { kind: "not found" };
         }
-        else {
-            throw {kind : "not found"}
-        }
+
+        console.log("Deleted Customer with id: ", customerId);
     }
     catch(error){
             console.error("error deleting Customer by ID: ", error);
@@ -88,7 +87,8 @@ Customer.remove = async (customerId) => {
 
 Customer.getAllRentals = async (customerId) => {
     try {
-        const sql = `SELECT distinct
+        const sql = `SELECT
+            rental.rental_id,
             customer.customer_id,
             customer.first_name,
             customer.last_name,
@@ -105,8 +105,7 @@ Customer.getAllRentals = async (customerId) => {
             where
                 customer.customer_id = ?
             order by
-                return_status
-            limit 25;`
+                return_status;`
         const [rows] = await pool.query(sql, [customerId]);
         if(rows){
             console.log("Customer found: ", rows);
