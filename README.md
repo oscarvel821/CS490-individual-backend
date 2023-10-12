@@ -12,7 +12,7 @@ Before you get started, ensure you have the following dependencies installed on 
 
 1. Clone this repository to your local machine:
 
-git clone https://github.com/oscarvel821/CS490-individual-backend/tree/development
+git clone https://github.com/oscarvel821/CS490-individual-backend/tree/development \
 cd CS490-individual-backend
 
 ## Install the project dependencies by running:
@@ -21,11 +21,11 @@ cd CS490-individual-backend
 
 ## Create a directory in the app directory called config then create a db.config.js file in the config directory with the following content:
 
-module.exports = {
-    HOST: 'your-local-host',
-    USER: 'your-root-user-for-sql',
-    PASSWORD: 'your-sql-password',
-    DB: 'sakila'
+module.exports = { \
+    HOST: 'your-local-host', \
+    USER: 'your-root-user-for-sql', \
+    PASSWORD: 'your-sql-password', \
+    DB: 'sakila' \
 };
 
 ## Available Scripts
