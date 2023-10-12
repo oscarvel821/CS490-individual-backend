@@ -34,15 +34,15 @@ describe("customer", () => {
         closeDatabase();
     })
 
-    describe("get customer routes", () => {
+    describe("get customer route", () => {
         describe("Retrieving all customers", () => {
 
             it("Should return a 200" , async () => {
                 await supertest(app).get('/api/customer').expect(200);
             })
 
-            it("should return films", async () => {
-                const response = await supertest(app).get('/api/film');
+            it("should return customers", async () => {
+                const response = await supertest(app).get('/api/customer');
                 expect(response.body.length >= 1);
             });
             
@@ -55,7 +55,7 @@ describe("customer", () => {
             });
         });
 
-        describe("given the film does exist", () => {
+        describe("given the customer does exist", () => {
 
             it("should return a 200 and customer", async () => {
                 const newCustomer = await Customer.create(CustomerPayload);
